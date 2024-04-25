@@ -19,6 +19,7 @@ def dl(url):
     filename = stream.default_filename
     stream.download(filename=filename)
 
-dl('https://www.youtube.com/watch?v=OaQwcXo7tx4&list=PLlu2PoyR1mdFz3zid7F0UrDUMGA6xvS2J&index=4')
+
+dl(input("paste youtube url: "))
 
 
