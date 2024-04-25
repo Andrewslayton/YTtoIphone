@@ -23,6 +23,9 @@ def dl(url):
 
 
 def update_song_list(listbox):
+    folder = 'downloaded_music'
+    if not os.path.exists(folder):
+        os.makedirs(folder)
     listbox.delete(0, END)
     for song in os.listdir('downloaded_music'):
         listbox.insert(END, song)
