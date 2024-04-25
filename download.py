@@ -1,9 +1,10 @@
 import asyncio
 import sqlite3
+import time
 from yt_dlp import YoutubeDL
 import os
 import youtube_dl
-from pytube import YouTube
+from pytube import YouTube, Playlist
 from tkinter import Tk, Label, Entry, Button, Listbox, END
 
 
@@ -15,10 +16,18 @@ ydl_opts = {
 
 
 def dl(url):
-    stream = YouTube(url).streams.filter(only_audio=True).first()
     folder = 'downloaded_music'
-    filename = stream.default_filename
-    stream.download(output_path=folder, filename=filename)
+    if 'playlist' in url:
+        playlist = Playlist(url)
+        for video in playlist.videos:
+            stream = video.streams.filter(only_audio=True).first()
+            filename = stream.default_filename
+            stream.download(output_path=folder, filename=filename)
+            time.sleep(5)
+    else: 
+        stream = YouTube(url).streams.filter(only_audio=True).first()
+        filename = stream.default_filename
+        stream.download(output_path=folder, filename=filename)
 
 
 
@@ -53,7 +62,7 @@ root = Tk()
 root.geometry("750x600")
 root.title("Music download for hypothetical use")
 
-Label(root, text="Enter YouTube URL:").pack()
+Label(root, text="Enter YouTube URL if its a playlist be patient it takes a while").pack()
 url_entry = Entry(root, width=100)
 url_entry.pack(side = 'top')
 
